@@ -3,6 +3,7 @@
 #include <string.h>
 #include <err.h>
 #include<fcntl.h>
+#include <unistd.h>
 
 /** Loads a string from a file.
  *
@@ -23,32 +24,33 @@ char *loadstr(int fd)
 	char buffer;
 	tam = read(fd,&buffer,1);
 	if(tam==0){
-		return 0;
+		return NULL;
 	}
 
 	while(buffer!='\0'){
 		i++;
 		tam = read(fd,&buffer,1);
-		printf("%c\n", buffer);
-		printf("tam tam -- %d\n", tam);
+		//printf("%c\n", buffer);
+		//printf("tam tam -- %d\n", tam);
 	}
 	
 	
-	printf("%d\n", i);
+	// printf("%d\n", i);
 	char *cadena = malloc(i + 1);
 
-	off_t of = lseek(fd,-i - 1,SEEK_CUR);
+	off_t of = lseek(fd,-i-1,SEEK_CUR);
 
-	printf("of -- %ld\n", of);
+	//printf("of -- %ld\n", of);
 	
 	tam = read(fd, cadena, i + 1);
 
-	printf("tam -- %d\n", tam);
+	//printf("tam -- %d\n", tam);
 
-	cadena[i] = '\0';
-	printf("cadena -- %s\n", cadena);
 
-	return NULL;	
+	//printf("cadena -- %s\n", cadena);
+
+	return cadena;	
+
 }
 
 int main(int argc, char *argv[])
@@ -57,15 +59,17 @@ int main(int argc, char *argv[])
 	int fd;
 	fd = open(argv[1],O_RDONLY);
 
+	
 	char *cadena = loadstr(fd);
 
-	/*
-	cadena = loadstr(fd);
+	while (cadena != NULL)
+	{
+		printf("%s\n", cadena);
+		cadena = loadstr(fd);
+		
+	}
+	
 
-	cadena = loadstr(fd);
-	cadena = loadstr(fd);
-	cadena = loadstr(fd);
-	cadena = loadstr(fd);
-	*/
+	
 	return 0;
 }
