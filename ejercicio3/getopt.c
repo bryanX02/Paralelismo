@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <unistd.h> 
+#include <unistd.h>
 #include <stdlib.h> 
 #include <string.h>
 #include "defs.h"
@@ -53,11 +53,18 @@ int main(int argc, char *argv[])
 	options.title = NULL;
 
 	/* Parse command-line options */
-	while((opt = getopt(argc, argv, "h")) != -1) {
+	while((opt = getopt(argc, argv, "hl:e")) != -1) {
 		switch(opt) {
 		case 'h':
 			usage();
 			exit(0);
+		case 'l':
+			long numero = strtol(optarg,NULL,0);
+			options.lenght = numero;
+			break;
+		case 'e':
+			options.par_mode = EVEN;
+			break;
 		default:
 			exit(EXIT_FAILURE);
 		}
@@ -71,7 +78,7 @@ int main(int argc, char *argv[])
 	}
 	
 	/* Fill options.title with the corresponding element of argv */
-	// options.title = argv[xxxx];
+	options.title = argv[optind];
 
     /* Call display_numbers */
 	display_numbers (options.lenght, options.par_mode, options.title);
