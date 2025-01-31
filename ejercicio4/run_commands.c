@@ -2,10 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
+#include<sys/types.h>
+#include<fcntl.h>
 
 pid_t launch_command(char** argv){
-    /* To be completed */
-    return 0;
+    pid_t pid = fork();
+
+    if (pid == 0){
+        execvp(argv[0], argv);
+        exit(1);
+    }
+    else{
+        return pid;
+    }
 }
 
 
@@ -70,22 +80,65 @@ int main(int argc, char *argv[]) {
     char **cmd_argv;
     int cmd_argc;
     int i;
-
-    if (argc != 2) {
+    
+    /*
+    if (argc != 3) {
         fprintf(stderr, "Usage: %s \"command\"\n", argv[0]);
         return EXIT_FAILURE;
     }
+    */
 
-    cmd_argv=parse_command(argv[1],&cmd_argc);
+	int  opt;
+    int status;
+    while((opt = getopt(argc, argv, "x:s:")) != -1) {
+		switch(opt) {
+		case 'x':
+			cmd_argv=parse_command(optarg,&cmd_argc);
+            
+            pid_t pid_m = launch_command(cmd_argv);
+            
+            //printf("pid -- %d\n", pid_m);
 
-    // Print parsed arguments
-    printf("argc: %d\n", cmd_argc);
-    for (i = 0; cmd_argv[i] != NULL; i++) {
-        printf("argv[%d]: %s\n", i, cmd_argv[i]);
-        free(cmd_argv[i]);  // Free individual argument
-    }
+            if (pid_m>0){
+                wait(&status);
+            }
 
-    free(cmd_argv);  // Free the cmd_argv array
+            for (i = 0; cmd_argv[i] != NULL; i++) {
+                free(cmd_argv[i]);  // Free individual argument
+            }
+            free(cmd_argv);  // Free the cmd_argv array
+			break;
+		case 's':
+	        FILE *stream = fopen(optarg,"r");
+            if (stream< 0){
+		        perror("open"); exit(1);
+ 	        }
+            char line[1024];
+            int j = 1;
+            while(fgets(line, sizeof(line), stream) > 0){
+               cmd_argv=parse_command(line, &cmd_argc);
 
-    return EXIT_SUCCESS;
+                printf("@@ Running command #%d: %s", j, line);
+                pid_t pid_m = launch_command(cmd_argv);
+                
+                //printf("pid -- %d\n", pid_m);
+
+                if (pid_m>0){
+                    wait(&status);
+                }
+                printf("@@ Command #%d terminated (pid: %d, status: %d)\n\n", j, pid_m, status);
+                for (i = 0; cmd_argv[i] != NULL; i++) {
+                    free(cmd_argv[i]);  // Free individual argument
+                }
+                free(cmd_argv);  // Free the cmd_argv array
+                
+                j++;
+            }
+
+			break;
+		default:
+			exit(EXIT_FAILURE);
+		}
+	}
+
 }

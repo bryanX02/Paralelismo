@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	//fd_in = creat(argv[1],0751);
 	fd_in = open(argv[1],O_WRONLY|O_CREAT|O_TRUNC,0751);
 	if (fd_in< 0){
-		perror("creat"); exit(1);
+		perror("open"); exit(1);
  	}
 	int i = 2;
 	while(argv[i]!=NULL){
