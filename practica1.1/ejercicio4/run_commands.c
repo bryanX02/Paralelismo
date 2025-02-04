@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
 		        perror("open"); exit(1);
  	        }
             char line[1024];
-            int j = 1;
+            int j = 0;
             while(fgets(line, sizeof(line), stream) > 0){
                cmd_argv=parse_command(line, &cmd_argc);
 

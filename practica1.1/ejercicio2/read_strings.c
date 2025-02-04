@@ -38,7 +38,7 @@ char *loadstr(int fd)
 	// printf("%d\n", i);
 	char *cadena = malloc(i + 1);
 
-	off_t of = lseek(fd,-i-1,SEEK_CUR);
+	lseek(fd,-i-1,SEEK_CUR);
 
 	//printf("of -- %ld\n", of);
 	

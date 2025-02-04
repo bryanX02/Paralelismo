@@ -22,14 +22,7 @@ int main(int argc, char* argv[])
 		//buffer = argv[i];
 		//printf("%s\n", buffer);
 
-		if(write(fd_in,buffer,len_i)!=len_i){
-			perror("write");
- 			close(fd_in);
- 			exit(1);
- 			
-		}
-		char fin = '\0';
-		if(write(fd_in,&fin,1)!=1){
+		if(write(fd_in,buffer,len_i + 1)!=len_i + 1){
 			perror("write");
  			close(fd_in);
  			exit(1);
