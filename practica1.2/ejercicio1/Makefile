@@ -1,9 +1,14 @@
-CFLAGS  = -Wall -g -pthread
-SRC = philosophers.c
-PROG   = philosophers
+CC = gcc
+CFLAGS = -Wall -g
 
-all :
-	gcc $(CFLAGS) -o $(PROG) $(SRC)
+PROGS   = philosophers_mtx philosophers_sem
+
+all : $(PROGS)
+$(PROGS) : % : %.o
+	gcc -g -o $@ $^
+	
+%.o : %.c 
+	gcc -c $(CFLAGS) $< -o $@
 
 clean :
-	-rm -f $(PROG)
+	-rm -f *.o $(PROGS) 
