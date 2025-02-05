@@ -56,8 +56,10 @@ void* philosopher(void* i)
             sem_wait(&forks[right]);
             sem_wait(&forks[left]);
         }
-        // pthread_mutex_lock(&forks[right]);
-        // pthread_mutex_lock(&forks[left]);
+        else{
+            sem_wait(&forks[left]);
+            sem_wait(&forks[right]);
+        }
 
         eat(nPhilosopher);
         
