@@ -15,35 +15,42 @@ int *vector;
 
 void init()
 {
-    sem_init(&semaforos[0],0,0);
-	sem_init(&semaforos[1],0,1);
+    sem_init(&semaforos[0],0,0); //Semaforo pares
+	sem_init(&semaforos[1],0,1); //Semaforo impares
 	
 }
 
 
-
-void* alternar_pares(void* i){
-	int n=2;
-	for (int i=0;i<tam / N_HILOS;i++,n+=2){
-		wait(&semaforos[0]);
-		printf("par--%d\n", n-1);
-		printf("par elemento--%d\n", n);
-		vector[n - 1] = n;
-		signal(&semaforos[1]);
-	}
-}
-
-void* alternar_impares(void* i){
+void* alternar_impares(){
 	
 	int n=1;
-	
 	for (int i=0;i<tam / N_HILOS;i++,n+=2){
-		wait(&semaforos[1]);
-		printf("impar--%d\n", n-1);
+		sem_wait(&semaforos[1]);
 		printf("impar elemento--%d\n", n);
 		vector[n - 1] = n;
-		signal(&semaforos[0]);
+		sem_post(&semaforos[0]);
 	}
+}
+
+void* alternar_pares(){
+	int n=2;
+	for (int i=0;i<tam / N_HILOS;i++,n+=2){
+		sem_wait(&semaforos[0]);
+		printf("par elemento--%d\n", n);
+		vector[n - 1] = n;
+		sem_post(&semaforos[1]);
+	}
+}
+
+void* mostrar_vector(){
+	int j;
+	j = 0;
+	printf("%d", vector[j]);
+
+	for(j=1; j<tam; j++){
+		printf(",%d", vector[j]);
+	}
+	printf("\n");
 }
 
 
@@ -63,11 +70,12 @@ int main(int argc, char* argv[])
 	vector = (int *)malloc(tam * sizeof(int));
 
 
+	init();
 
 	unsigned long i;
 
-    pthread_create(&hilos[1], NULL, alternar_impares, (void*)0);
-	pthread_create(&hilos[0], NULL, alternar_pares, (void*)1);
+    pthread_create(&hilos[0], NULL, alternar_impares, NULL);
+	pthread_create(&hilos[1], NULL, alternar_pares, NULL);
 
     
     for(i=0; i<N_HILOS; i++){
@@ -78,14 +86,9 @@ int main(int argc, char* argv[])
 		sem_destroy(&semaforos[i]);
 	}
 
-	int j;
-	j = 0;
-	printf("%d", vector[j]);
+	mostrar_vector();
 
-	for(j=1; j<tam; j++){
-		printf(",%d", vector[j]);
-	}
-	printf("\n");
 	return 0;
 }
+
 
