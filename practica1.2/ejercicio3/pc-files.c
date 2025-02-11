@@ -4,13 +4,18 @@
 #include <err.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <fcntl.h>
 #include <semaphore.h>
 
+// Definimos las variables globales
 #define MAX_SBUFFER_SIZE 4
 char* shared_buffer[MAX_SBUFFER_SIZE]; 
 int ridx = 0;
 int widx = 0;
 
+// Esta definicion la realizamos para que visual studio code 
+// no nos marque error en la variable optarg de unistd.h
+extern char *optarg;
 
 char *fichero_entrada;
 char *fichero_salida = "out.txt";
@@ -135,8 +140,12 @@ void* fproductor(void* i)
 
 void* fconsumidor(void* i)
 {
-	//printf("%s\n", "Hola");
-	FILE *ficheroS = fopen(fichero_salida, "wb");
+	int fd = open(fichero_salida, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (fd < 0) {
+        perror("Error abriendo el archivo de salida");
+        exit(EXIT_FAILURE);
+    }
+
 	int seguir = 1;
 	//char bufferE[1024];
 	while (seguir) {  
@@ -161,7 +170,7 @@ void* fconsumidor(void* i)
 		}
 
 		if (seguir){
-			fwrite(shared_buffer[ridx], sizeof(char),strlen(shared_buffer[ridx]), ficheroS);
+			write(fd, shared_buffer[ridx], strlen(shared_buffer[ridx]));
 			//printf("CONSSSSS-- Escrito: %s\n", shared_buffer[ridx]); 
 		}
 		
@@ -189,18 +198,21 @@ void* fconsumidor(void* i)
 
 
 
-
 int main(int argc, char* argv[])
 {
 
-	
+	// Evaluamos los argumentos de entrada
 	int  opt;
 	while((opt = getopt(argc, argv, "i:o:")) != -1) {
+
 		switch(opt) {
+		
+		// En caso de que se pase un argumento -i
 		case 'i':
 			fichero_entrada = optarg;
 			hay_fE = 1;
 			break;
+		// En caso de que se pase un argumento -o
 		case 'o':
 			fichero_salida = optarg;
 			break;
@@ -209,22 +221,18 @@ int main(int argc, char* argv[])
 		}
 	}
 
-
-
-
+	// Inicializamos las condiciones y los mutex
 	pthread_cond_init(&prod, NULL);
 	pthread_cond_init(&cons, NULL);
-
 
 	pthread_create(&productor, NULL, fproductor, NULL);
 	pthread_create(&consumidor, NULL, fconsumidor, NULL);
 
-
-
+	// Esperamos a que los hilos terminen
     pthread_join(productor,NULL);
 	pthread_join(consumidor,NULL);
 
-
+	// Destruimos los mutex
 	pthread_cond_destroy(&prod);
 	pthread_cond_destroy(&cons);
 	
