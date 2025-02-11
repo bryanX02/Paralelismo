@@ -16,9 +16,14 @@ int *vector;
 void init()
 {
     
-	sem_init(&semaforos[0],0,1); 
-	sem_init(&semaforos[1],0,0); 
-	sem_init(&semaforos[2],0,0); 
+	// sem_init(&semaforos[0],0,1); 
+	// sem_init(&semaforos[1],0,0); 
+	// sem_init(&semaforos[2],0,0); 
+
+	sem_init(&semaforos[0],0,1);
+	for(int i=1; i<N_HILOS; i++){
+		sem_init(&semaforos[i],0,0);
+	}
 
 }
 
@@ -28,18 +33,17 @@ void* alternar(void* i){
 	int n = (int)i;
 	
 	int sem = n;
-	printf("sem -- %d\n", sem);
+	//printf("sem -- %d\n", sem);
 	n++; 
 	//El hilo 0 empezará en 1, el 0 en 2 y el 2 en 3.
 
-	printf("resto -- %d\n", (tam%N_HILOS));
+	//printf("resto -- %d\n", (tam%N_HILOS));
 	int resto =(tam%N_HILOS);
-	int diferente = resto!=0;
 
-	printf("diferente -- %d\n", diferente);
+	//printf("diferente -- %d\n", diferente);
 
 	int acabar = (tam / N_HILOS) + ((sem + 1) <= resto);
-	printf("Acabar sem %d -- %d--\n", sem, acabar);
+	//printf("Acabar sem %d -- %d--\n", sem, acabar);
 
 	for (int i=0;i<acabar;i++,n+=N_HILOS){
 		sem_wait(&semaforos[sem]);
@@ -75,7 +79,7 @@ int main(int argc, char* argv[])
 			exit(EXIT_FAILURE);
 		}
 	}
-	printf("%d\n", tam);
+	//printf("%d\n", tam);
 	vector = (int *)malloc(tam * sizeof(int));
 
 

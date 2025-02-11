@@ -4,6 +4,7 @@
         "stdlib.h": "c",
         "ctype.h": "c",
         "stdio.h": "c",
-        "err.h": "c"
+        "err.h": "c",
+        "semaphore.h": "c"
     }
 }
