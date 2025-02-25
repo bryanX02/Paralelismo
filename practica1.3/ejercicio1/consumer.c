@@ -10,11 +10,16 @@
 #define DATA_TO_CONSUME  16    /* # elements to produce */
 sem_t *elements;  /* # of elements in the buffer */
 sem_t *gaps;     /* # of free gaps in the buffer */
+sem_t *waitCons; /* # semaforo para que el consumidor no empiece antes que el productor */
 
 void Consumer(int *buffer)
 {
     int pos = 0;  /* read index */
     int i, item;
+
+    printf("Consumer waiting, antes del post\n");
+    sem_post(waitCons);
+    printf("Consumer waiting, despues del post\n");
 
     for(i=0; i < DATA_TO_CONSUME; i++ )  {
         sem_wait(elements);
@@ -23,6 +28,8 @@ void Consumer(int *buffer)
         sem_post(gaps);
         printf("Consuming %d\n", item);
     }
+
+
 }
 
 void main(int argc, char *argv[]) {
@@ -30,7 +37,7 @@ void main(int argc, char *argv[]) {
     int *buffer;    /* shared buffer */
 
     /* the consumer opens the file */
-    shd = open("/tmp/BUFFER", O_RDONLY);
+    shd = shm_open("MEM_COMP", O_RDONLY, 0777);
 
     if (shd==-1) {
         perror("open");
@@ -64,7 +71,16 @@ void main(int argc, char *argv[]) {
         close(shd);
         exit(EXIT_FAILURE);
     }
+    waitCons = sem_open("WAITCONS", 0);
 
+    if (waitCons == SEM_FAILED) {
+        perror("sem_open (waitCons)");
+        sem_close(elements);
+        sem_close(gaps);
+        munmap(buffer, MAX_BUFFER * sizeof(int));
+        close(shd);
+        exit(EXIT_FAILURE);
+    }
     /* consumer's core processing */
     Consumer(buffer);
 
@@ -75,4 +91,5 @@ void main(int argc, char *argv[]) {
     /* close semaphores */
     sem_close(elements);
     sem_close(gaps);
+    sem_close(waitCons);
 }

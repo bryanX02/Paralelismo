@@ -10,12 +10,17 @@
 #define DATA_TO_PRODUCE  16    /* # elements to produce */
 sem_t *elements;  /* # of elements in the buffer */
 sem_t *gaps;     /* # of free gaps in the buffer */
+sem_t *waitCons; /* # semaforo para que el productor no empiece antes que el consumidor */
 
 void Producer(int *buffer)
 {
     int pos = 0;  /* write index */
     int item;     /* data to produce */
     int i;
+
+    printf("Producer waiting, antes del wait\n");
+    sem_wait(waitCons);
+    printf("Producer waiting, despues del wait\n");
 
     for(i=0; i < DATA_TO_PRODUCE; i++ ) {
         item = i; /* Producing number */
@@ -38,9 +43,10 @@ void main(int argc, char *argv[]) {
      **/
     sem_unlink("ELEMENTS");
     sem_unlink("GAPS");
+    sem_unlink("WAITCONS");
 
     /* the producer creates the file */
-    shd = open("/tmp/BUFFER", O_CREAT| O_RDWR | O_TRUNC, 0777);
+    shd = shm_open("MEM_COMP", O_CREAT| O_RDWR | O_TRUNC, 0777);
 
     if (shd==-1) {
         perror("open");
@@ -85,16 +91,21 @@ void main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
+    // semaforo para que el productor no empiece antes que el consumidor
+    waitCons = sem_open("WAITCONS", O_CREAT, 0700, 0);
+
     /* core producer's code */
     Producer(buffer);
 
     /* Unmap shared buffer */
     munmap(buffer, MAX_BUFFER * sizeof(int));
     close(shd);        /* close the shared memory region */
-    unlink("/tmp/BUFFER");  /* delete the shared memory region */
+    shm_unlink("MEM_COMP");  /* delete the shared memory region */
 
     sem_close(elements);
     sem_close(gaps);
+    sem_close(waitCons);
     sem_unlink("ELEMENTS");
     sem_unlink("GAPS");
+    sem_unlink("WAITCONS");
 }
