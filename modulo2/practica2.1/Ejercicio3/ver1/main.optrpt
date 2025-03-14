@@ -1,0 +1,768 @@
+Begin optimization report for: rngNumber(float, float, float)
+=================================================================
+
+Begin optimization report for: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.p)
+
+LOOP BEGIN at main.cc (21, 5)
+<Multiversioned v2>
+    remark #15319: Loop was not vectorized: novector directive used
+LOOP END
+
+LOOP BEGIN at main.cc (21, 5)
+<Multiversioned v1>
+    remark #25228: Loop multiversioned for Data Dependence
+    remark #25564: Store sinked out of the loop
+    remark #15300: LOOP WAS VECTORIZED
+    remark #15305: vectorization support: vector length 4
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (23, 31) ] 
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (24, 31) ] 
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (25, 31) ] 
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (26, 23) ] 
+    remark #15475: --- begin vector loop cost summary ---
+    remark #15476: scalar cost: 29.000000 
+    remark #15477: vector cost: 13.000000 
+    remark #15478: estimated potential speedup: 2.187500 
+    remark #15309: vectorization support: normalized vectorization overhead 0.453125
+    remark #15591: vectorized intrinsic functions: 1
+    remark #15488: --- end vector loop cost summary ---
+    remark #15447: --- begin vector loop memory reference summary ---
+    remark #15462: unmasked indexed (or gather) loads: 4 
+    remark #15567: Gathers are generated due to non-unit stride index of the corresponding loads.
+    remark #15474: --- end vector loop memory reference summary ---
+    remark #25587: Loop has reduction
+    remark #15590: vectorization support: add reduction with value type float [main.cc:26:13]
+LOOP END
+
+LOOP BEGIN at main.cc (21, 5)
+<Remainder loop for vectorization>
+LOOP END
+=================================================================
+
+Begin optimization report for: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.A)
+
+LOOP BEGIN at main.cc (21, 5)
+<Multiversioned v2>
+    remark #15319: Loop was not vectorized: novector directive used
+LOOP END
+
+LOOP BEGIN at main.cc (21, 5)
+<Multiversioned v1>
+    remark #25228: Loop multiversioned for Data Dependence
+    remark #25564: Store sinked out of the loop
+    remark #15300: LOOP WAS VECTORIZED
+    remark #15305: vectorization support: vector length 4
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (23, 31) ] 
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (24, 31) ] 
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (25, 31) ] 
+    remark #15328: vectorization support: unmasked gather load: chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (26, 23) ] 
+    remark #15475: --- begin vector loop cost summary ---
+    remark #15476: scalar cost: 75.000000 
+    remark #15477: vector cost: 47.750000 
+    remark #15478: estimated potential speedup: 1.546875 
+    remark #15309: vectorization support: normalized vectorization overhead 0.156250
+    remark #15591: vectorized intrinsic functions: 1
+    remark #15488: --- end vector loop cost summary ---
+    remark #15447: --- begin vector loop memory reference summary ---
+    remark #15462: unmasked indexed (or gather) loads: 4 
+    remark #15567: Gathers are generated due to non-unit stride index of the corresponding loads.
+    remark #15474: --- end vector loop memory reference summary ---
+    remark #25587: Loop has reduction
+    remark #15590: vectorization support: add reduction with value type float [main.cc:26:13]
+LOOP END
+
+LOOP BEGIN at main.cc (21, 5)
+<Remainder loop for vectorization>
+LOOP END
+=================================================================
+
+Begin optimization report for: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.resolver)
+=================================================================
+
+Begin optimization report for: main.p
+
+LOOP BEGIN at main.cc (54, 5)
+    remark #15527: Loop was not vectorized: function call to  cannot be vectorized
+    remark #25438: Loop unrolled without remainder by 4
+LOOP END
+
+LOOP BEGIN at main.cc (64, 5)
+<Predicate Optimized v1>
+    remark #25452: Poor spatial locality detected in memref(s). 
+    remark #25445: Loop interchange not done due to: non-perfect loopnest
+    remark #25451: Advice: Loop interchange, if possible, might help loopnest. Suggested Permutation: ( 1 2 3 ) --> ( 2 3 1 )
+    remark #25580: Induction variable range split using condition at line 80
+    remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+    LOOP BEGIN at main.cc (71, 9)
+        remark #25540: Loop unrolled and jammed by 8
+        remark #25541: Unroll & Jam factor can be tuned using unroll_and_jam directive/pragma or it can be suppressed using nounroll_and_jam directive/pragma
+        remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+        LOOP BEGIN at main.cc (21, 5)
+            remark #25583: Number of Array Refs Scalar Replaced In Loop: 28
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15305: vectorization support: vector length 8
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (23, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (24, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (25, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (26, 23) ] 
+            remark #15475: --- begin vector loop cost summary ---
+            remark #15476: scalar cost: 182.000000 
+            remark #15477: vector cost: 46.250000 
+            remark #15478: estimated potential speedup: 3.921875 
+            remark #15309: vectorization support: normalized vectorization overhead 1.031250
+            remark #15570: using scalar loop trip count: 1024
+            remark #15591: vectorized intrinsic functions: 8
+            remark #15488: --- end vector loop cost summary ---
+            remark #15447: --- begin vector loop memory reference summary ---
+            remark #15462: unmasked indexed (or gather) loads: 4 
+            remark #15567: Gathers are generated due to non-unit stride index of the corresponding loads.
+            remark #15474: --- end vector loop memory reference summary ---
+            remark #25587: Loop has reduction
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+        LOOP END
+    LOOP END
+LOOP END
+
+LOOP BEGIN at main.cc (64, 5)
+<Predicate Optimized v2>
+    remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+    LOOP BEGIN at main.cc (71, 9)
+        remark #25540: Loop unrolled and jammed by 8
+        remark #25541: Unroll & Jam factor can be tuned using unroll_and_jam directive/pragma or it can be suppressed using nounroll_and_jam directive/pragma
+        remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+        LOOP BEGIN at main.cc (21, 5)
+            remark #25583: Number of Array Refs Scalar Replaced In Loop: 28
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15305: vectorization support: vector length 8
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (23, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (24, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (25, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (26, 23) ] 
+            remark #15475: --- begin vector loop cost summary ---
+            remark #15476: scalar cost: 182.000000 
+            remark #15477: vector cost: 46.250000 
+            remark #15478: estimated potential speedup: 3.921875 
+            remark #15309: vectorization support: normalized vectorization overhead 1.031250
+            remark #15570: using scalar loop trip count: 1024
+            remark #15591: vectorized intrinsic functions: 8
+            remark #15488: --- end vector loop cost summary ---
+            remark #15447: --- begin vector loop memory reference summary ---
+            remark #15462: unmasked indexed (or gather) loads: 4 
+            remark #15567: Gathers are generated due to non-unit stride index of the corresponding loads.
+            remark #15474: --- end vector loop memory reference summary ---
+            remark #25587: Loop has reduction
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+        LOOP END
+    LOOP END
+LOOP END
+
+LOOP BEGIN at main.cc (90, 5)
+    remark #15300: LOOP WAS VECTORIZED
+    remark #15305: vectorization support: vector length 4
+    remark #15389: vectorization support: unmasked unaligned unit stride load: potential [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (91, 17) ] 
+    remark #15475: --- begin vector loop cost summary ---
+    remark #15476: scalar cost: 5.000000 
+    remark #15477: vector cost: 2.015625 
+    remark #15478: estimated potential speedup: 2.453125 
+    remark #15309: vectorization support: normalized vectorization overhead 1.984375
+    remark #15570: using scalar loop trip count: 1048576
+    remark #15488: --- end vector loop cost summary ---
+    remark #15447: --- begin vector loop memory reference summary ---
+    remark #15450: unmasked unaligned unit stride loads: 1 
+    remark #15474: --- end vector loop memory reference summary ---
+    remark #25587: Loop has reduction
+    remark #15590: vectorization support: add reduction with value type double [main.cc:91:14]
+LOOP END
+=================================================================
+
+Begin optimization report for: main.A
+
+LOOP BEGIN at main.cc (54, 5)
+    remark #15527: Loop was not vectorized: function call to  cannot be vectorized
+    remark #25438: Loop unrolled without remainder by 4
+LOOP END
+
+LOOP BEGIN at main.cc (64, 5)
+<Predicate Optimized v1>
+    remark #25580: Induction variable range split using condition at line 80
+    remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+    LOOP BEGIN at main.cc (71, 9)
+        remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+        LOOP BEGIN at main.cc (21, 5)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15305: vectorization support: vector length 4
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (23, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (24, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (25, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (26, 23) ] 
+            remark #15475: --- begin vector loop cost summary ---
+            remark #15476: scalar cost: 73.000000 
+            remark #15477: vector cost: 47.250000 
+            remark #15478: estimated potential speedup: 1.531250 
+            remark #15309: vectorization support: normalized vectorization overhead 0.093750
+            remark #15570: using scalar loop trip count: 1024
+            remark #15591: vectorized intrinsic functions: 1
+            remark #15488: --- end vector loop cost summary ---
+            remark #15447: --- begin vector loop memory reference summary ---
+            remark #15462: unmasked indexed (or gather) loads: 4 
+            remark #15567: Gathers are generated due to non-unit stride index of the corresponding loads.
+            remark #15474: --- end vector loop memory reference summary ---
+            remark #25587: Loop has reduction
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+        LOOP END
+    LOOP END
+LOOP END
+
+LOOP BEGIN at main.cc (64, 5)
+<Predicate Optimized v2>
+    remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+    LOOP BEGIN at main.cc (71, 9)
+        remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+        LOOP BEGIN at main.cc (21, 5)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15305: vectorization support: vector length 4
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (23, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (24, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (25, 31) ] 
+            remark #15328: vectorization support: unmasked gather load: chg chg [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver1/main.cc (26, 23) ] 
+            remark #15475: --- begin vector loop cost summary ---
+            remark #15476: scalar cost: 73.000000 
+            remark #15477: vector cost: 47.250000 
+            remark #15478: estimated potential speedup: 1.531250 
+            remark #15309: vectorization support: normalized vectorization overhead 0.093750
+            remark #15570: using scalar loop trip count: 1024
+            remark #15591: vectorized intrinsic functions: 1
+            remark #15488: --- end vector loop cost summary ---
+            remark #15447: --- begin vector loop memory reference summary ---
+            remark #15462: unmasked indexed (or gather) loads: 4 
+            remark #15567: Gathers are generated due to non-unit stride index of the corresponding loads.
+            remark #15474: --- end vector loop memory reference summary ---
+            remark #25587: Loop has reduction
+            remark #15590: vectorization support: add reduction with value type float [main.cc:26:13 @[ main.cc:75:13 ]]
+        LOOP END
+    LOOP END
+LOOP END
+
+LOOP BEGIN at main.cc (90, 5)
+    remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+    remark #25438: Loop unrolled without remainder by 8
+LOOP END
+=================================================================
+
+Begin optimization report for: main.resolver
+=================================================================
+
+---- Begin Inlining Report ----
+Option Values:
+  inline-threshold: 225
+  inlinehint-threshold: 325
+  inlinecold-threshold: 45
+  inlineoptsize-threshold: 15
+
+DEAD STATIC FUNC: CalculateElectricPotential(int, Charge const*, float, float, float, float&)
+
+DEAD STATIC FUNC: CPUTime::start()
+
+DEAD STATIC FUNC: CPUTime::readTime()
+
+DEAD STATIC FUNC: CPUTime::CPUTime()
+
+DEAD STATIC FUNC: llvm.ssa.copy.f32
+
+DEAD STATIC FUNC: llvm.ssa.copy.f64
+
+DEAD STATIC FUNC: llvm.ssa.copy.i32
+
+DEAD STATIC FUNC: llvm.ssa.copy.i64
+
+DEAD STATIC FUNC: main
+
+COMPILE FUNC: rngNumber(float, float, float)
+   -> EXTERN: rand main.cc(36,10)
+
+COMPILE FUNC: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.p)
+   -> DELETE: llvm.sqrt.f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v4f32 main.cc(26,27)
+   -> llvm.sqrt.v4f32 main.cc(26,27)
+   -> DELETE: llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> llvm.sqrt.f32 main.cc(26,27)
+   -> llvm.sqrt.f32 main.cc(26,27)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(21,25)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(23,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(24,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(25,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(26,23)
+
+COMPILE FUNC: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.A)
+   -> DELETE: llvm.sqrt.f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v4f32 main.cc(26,27)
+   -> llvm.sqrt.v4f32 main.cc(26,27)
+   -> DELETE: llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> llvm.sqrt.f32 main.cc(26,27)
+   -> llvm.sqrt.f32 main.cc(26,27)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(21,25)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(23,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(24,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(25,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(26,23)
+
+COMPILE FUNC: main.p
+   -> DELETE: llvm.dbg.assign main.cc
+   -> llvm.dbg.assign main.cc
+   -> INLINE: CPUTime::CPUTime() main.cc(46,13) (-15035<=337)
+   -> EXTERN: malloc main.cc(49,33)
+   -> EXTERN: puts main.cc(52,5)
+   -> EXTERN: puts main.cc(60,5)
+   -> EXTERN: printf main.cc(62,5)
+   -> INLINE: rngNumber(float, float, float) main.cc(55,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(56,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(57,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(58,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: CPUTime::start() main.cc(69,32) (40<=1012)
+      -> INLINE: CPUTime::readTime() cpu_time.hpp(45,36) (-14955<=487)
+   -> INLINE: CPUTime::start() main.cc(77,32) (-14960<=487)
+      -> INLINE: CPUTime::readTime() cpu_time.hpp(45,36) (-14955<=487)
+   -> INLINE: CalculateElectricPotential(int, Charge const*, float, float, float, float&) main.cc(75,13) (55<=225)
+      -> DELETE: llvm.sqrt.f32 main.cc(26,27)
+   -> DELETE: printf main.cc(85,2)
+   -> DELETE: fflush main.cc(87,2)
+   -> llvm.sqrt.f64 main.cc(94,11)
+   -> EXTERN: puts main.cc(95,5)
+   -> EXTERN: printf main.cc(96,5)
+   -> EXTERN: puts main.cc(98,5)
+   -> EXTERN: puts main.cc(99,5)
+   -> EXTERN: printf main.cc(100,5)
+   -> EXTERN: free main.cc(101,5)
+   -> DELETE: llvm.memset.p0.i64 main.cc(67,15)
+   -> llvm.memset.p0.i64 main.cc(67,15)
+   -> DELETE: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: printf main.cc(85,2)
+   -> EXTERN: fflush main.cc(87,2)
+   -> llvm.memset.p0.i64 main.cc(67,15)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.sqrt.v8f32 main.cc(26,27)
+   -> llvm.sqrt.v8f32 main.cc(26,27)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> DELETE: llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v8f32 main.cc(26,13)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: printf main.cc(85,2)
+   -> EXTERN: fflush main.cc(87,2)
+   -> DELETE: llvm.vector.reduce.fadd.v4f64 main.cc(91,14)
+   -> llvm.vector.reduce.fadd.v4f64 main.cc(91,14)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(54,28)
+   -> DELETE: llvm.dbg.assign cpu_time.hpp
+   -> DELETE: llvm.ssa.copy.i64
+   -> DELETE: llvm.dbg.assign cpu_time.hpp
+   -> DELETE: llvm.ssa.copy.f64 main.cc(86,29)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(86,15)
+   -> DELETE: llvm.ssa.copy.i64
+   -> DELETE: llvm.ssa.copy.f32
+   -> DELETE: llvm.ssa.copy.i64 main.cc(21,25)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(71,35)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(81,20)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(81,24)
+   -> DELETE: llvm.ssa.copy.f64
+   -> DELETE: llvm.ssa.copy.f64
+   -> DELETE: llvm.ssa.copy.i32 main.cc(64,32)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(90,27)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(23,31)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(24,31)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(25,31)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(26,23)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(23,31)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(24,31)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(25,31)
+   -> llvm.masked.gather.v8f32.v8p0 main.cc(26,23)
+
+COMPILE FUNC: main.A
+   -> DELETE: llvm.dbg.assign main.cc
+   -> llvm.dbg.assign main.cc
+   -> INLINE: CPUTime::CPUTime() main.cc(46,13) (-15035<=337)
+   -> EXTERN: malloc main.cc(49,33)
+   -> EXTERN: puts main.cc(52,5)
+   -> EXTERN: puts main.cc(60,5)
+   -> EXTERN: printf main.cc(62,5)
+   -> INLINE: rngNumber(float, float, float) main.cc(55,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(56,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(57,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(58,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: CPUTime::start() main.cc(69,32) (40<=1012)
+      -> INLINE: CPUTime::readTime() cpu_time.hpp(45,36) (-14955<=487)
+   -> INLINE: CPUTime::start() main.cc(77,32) (-14960<=487)
+      -> INLINE: CPUTime::readTime() cpu_time.hpp(45,36) (-14955<=487)
+   -> INLINE: CalculateElectricPotential(int, Charge const*, float, float, float, float&) main.cc(75,13) (55<=225)
+      -> DELETE: llvm.sqrt.f32 main.cc(26,27)
+   -> DELETE: printf main.cc(85,2)
+   -> DELETE: fflush main.cc(87,2)
+   -> llvm.sqrt.f64 main.cc(94,11)
+   -> EXTERN: puts main.cc(95,5)
+   -> EXTERN: printf main.cc(96,5)
+   -> EXTERN: puts main.cc(98,5)
+   -> EXTERN: puts main.cc(99,5)
+   -> EXTERN: printf main.cc(100,5)
+   -> EXTERN: free main.cc(101,5)
+   -> DELETE: llvm.memset.p0.i64 main.cc(67,15)
+   -> llvm.memset.p0.i64 main.cc(67,15)
+   -> DELETE: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> DELETE: llvm.sqrt.v4f32 main.cc(26,27)
+   -> llvm.sqrt.v4f32 main.cc(26,27)
+   -> DELETE: llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> DELETE: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: printf main.cc(85,2)
+   -> EXTERN: fflush main.cc(87,2)
+   -> llvm.memset.p0.i64 main.cc(67,15)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> DELETE: llvm.sqrt.v4f32 main.cc(26,27)
+   -> llvm.sqrt.v4f32 main.cc(26,27)
+   -> DELETE: llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> llvm.vector.reduce.fadd.v4f32 main.cc(26,13)
+   -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> EXTERN: printf main.cc(85,2)
+   -> EXTERN: fflush main.cc(87,2)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(54,28)
+   -> DELETE: llvm.dbg.assign cpu_time.hpp
+   -> DELETE: llvm.ssa.copy.i64
+   -> DELETE: llvm.dbg.assign cpu_time.hpp
+   -> DELETE: llvm.ssa.copy.f64 main.cc(86,29)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(86,15)
+   -> DELETE: llvm.ssa.copy.i64
+   -> DELETE: llvm.ssa.copy.f32
+   -> DELETE: llvm.ssa.copy.i64 main.cc(21,25)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(71,35)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(81,20)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(81,24)
+   -> DELETE: llvm.ssa.copy.f64
+   -> DELETE: llvm.ssa.copy.f64
+   -> DELETE: llvm.ssa.copy.i32 main.cc(64,32)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(90,27)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(23,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(24,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(25,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(26,23)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(23,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(24,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(25,31)
+   -> llvm.masked.gather.v4f32.v4p0 main.cc(26,23)
+   -> llvm.vector.reduce.fadd.v8f64 main.cc(91,14)
+
+COMPILE FUNC: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.resolver)
+   -> EXTERN: __intel_cpu_features_init
+
+COMPILE FUNC: main.resolver
+   -> EXTERN: __intel_cpu_features_init
+
+---- End Inlining Report ------
+Register allocation report for: rngNumber(float, float, float)
+FUNCTION BEGIN
+ 2 reloads 2 spills 
+
+Hardware registers used
+ Reserved : 3 [ mxcsr rsp ssp  ]
+ Available : 29 [ rbp rcx rdi rsi r8 r9 r10 r11 r12 r13 r14 r15 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 7 [ eflags rax rbx rdx zmm0 zmm1 zmm2  ]
+
+Routine stack 
+ Variables : 8 Bytes
+   Read Count : 2
+   Write Count : 2
+ Spills : 8 Bytes
+   Read Count : 2
+   Write Count : 2
+
+FUNCTION END
+Register allocation report for: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.p)
+FUNCTION BEGIN
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 2 [ rip mxcsr  ]
+ Available : 15 [ rbp rbx r8 r9 r10 r11 r12 r13 r14 r15 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 21 [ eflags rax rcx rdi rdx rsi zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END
+Register allocation report for: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.A)
+FUNCTION BEGIN
+ 1 reloads 1 spills 
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 2 [ rip mxcsr  ]
+ Available : 10 [ rbp rbx r12 r13 r14 r15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 26 [ eflags rax rcx rdi rdx rsi r8 r9 r10 r11 zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15  ]
+
+Routine stack 
+ Variables : 16 Bytes
+   Read Count : 1
+   Write Count : 1
+ Spills : 16 Bytes
+   Read Count : 1
+   Write Count : 1
+
+FUNCTION END
+Register allocation report for: CalculateElectricPotential(int, Charge const*, float, float, float, float&) (.resolver)
+FUNCTION BEGIN
+
+Hardware registers used
+ Reserved : 3 [ rsp ssp rip  ]
+ Available : 31 [ rbp rbx rdi r8 r9 r10 r11 r12 r13 r14 r15 zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 5 [ eflags rax rcx rdx rsi  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END
+Register allocation report for: main.p
+FUNCTION BEGIN
+ 4 reloads 6 spills 
+ LOOP1 BEGIN at (main.cc:54:5)
+  8 reloads 
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:64:5)
+  2 reloads 2 spills 
+  LOOP2 BEGIN at (main.cc:71:9)
+   9 spills 
+   LOOP3 BEGIN at (main.cc:21:5 @[ main.cc:75:13 ])
+    9 reloads 
+   LOOP3 END
+  LOOP2 END
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:64:5)
+  3 reloads 3 spills 
+  LOOP2 BEGIN at (main.cc:71:9)
+   9 spills 
+   LOOP3 BEGIN at (main.cc:21:5 @[ main.cc:75:13 ])
+    9 reloads 
+   LOOP3 END
+  LOOP2 END
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:90:5)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 4 [ rsp ssp rip mxcsr  ]
+ Available : 4 [ k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 6 [ rbp rbx r12 r13 r14 r15  ]
+ Assigned : 32 [ eflags rax rbp rbx rcx rdi rdx rsi r8 r9 r10 r11 r12 r13 r14 r15 zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15  ]
+
+Routine stack 
+ Variables : 20808 Bytes
+   Read Count : 51
+   Write Count : 33
+ Spills : 704 Bytes
+   Read Count : 35
+   Write Count : 29
+
+FUNCTION END
+Register allocation report for: main.A
+FUNCTION BEGIN
+ 4 reloads 4 spills 
+ LOOP1 BEGIN at (main.cc:54:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:64:5)
+  2 reloads 2 spills 
+  LOOP2 BEGIN at (main.cc:71:9)
+   1 spills 
+   LOOP3 BEGIN at (main.cc:21:5 @[ main.cc:75:13 ])
+   LOOP3 END
+  LOOP2 END
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:64:5)
+  3 reloads 3 spills 
+  LOOP2 BEGIN at (main.cc:71:9)
+   1 reloads 
+   LOOP3 BEGIN at (main.cc:21:5 @[ main.cc:75:13 ])
+   LOOP3 END
+  LOOP2 END
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:90:5)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 4 [ mxcsr rsp ssp rip  ]
+ Available : 6 [ r10 r11 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 5 [ rbx r12 r13 r14 r15  ]
+ Assigned : 30 [ eflags rax rbp rbx rcx rdi rdx rsi r8 r9 r12 r13 r14 r15 zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15  ]
+
+Routine stack 
+ Variables : 20544 Bytes
+   Read Count : 20
+   Write Count : 17
+ Spills : 112 Bytes
+   Read Count : 10
+   Write Count : 10
+
+FUNCTION END
+Register allocation report for: main.resolver
+FUNCTION BEGIN
+
+Hardware registers used
+ Reserved : 3 [ rsp ssp rip  ]
+ Available : 31 [ rbp rbx rdi r8 r9 r10 r11 r12 r13 r14 r15 zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 5 [ eflags rax rcx rdx rsi  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END

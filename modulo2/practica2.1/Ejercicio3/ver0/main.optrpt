@@ -1,0 +1,269 @@
+Begin optimization report for: CalculateElectricPotential(int, Charge const*, double, double, double, float&)
+
+LOOP BEGIN at main.cc (21, 5)
+<Multiversioned v2>
+    remark #15319: Loop was not vectorized: novector directive used
+LOOP END
+
+LOOP BEGIN at main.cc (21, 5)
+<Multiversioned v1>
+    remark #25228: Loop multiversioned for Data Dependence
+    remark #25564: Store sinked out of the loop
+    remark #15344: Loop was not vectorized: vector dependence prevents vectorization
+    remark #15346: vector dependence: assumed FLOW dependence between [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver0/main.cc (26, 13) ] and [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver0/main.cc (26, 13) ] 
+    remark #25439: Loop unrolled with remainder by 4
+LOOP END
+
+LOOP BEGIN at main.cc (21, 5)
+<Remainder loop>
+LOOP END
+=================================================================
+
+Begin optimization report for: rngNumber(float, float, float)
+=================================================================
+
+Begin optimization report for: main
+
+LOOP BEGIN at main.cc (54, 5)
+    remark #15527: Loop was not vectorized: function call to  cannot be vectorized
+    remark #25438: Loop unrolled without remainder by 4
+LOOP END
+
+LOOP BEGIN at main.cc (64, 5)
+<Predicate Optimized v1>
+    remark #25580: Induction variable range split using condition at line 80
+    remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+    LOOP BEGIN at main.cc (71, 9)
+        remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+        LOOP BEGIN at main.cc (21, 5)
+            remark #15344: Loop was not vectorized: vector dependence prevents vectorization
+            remark #15346: vector dependence: assumed FLOW dependence between [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver0/main.cc (26, 13) ] and [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver0/main.cc (26, 13) ] 
+            remark #25438: Loop unrolled without remainder by 4
+        LOOP END
+    LOOP END
+LOOP END
+
+LOOP BEGIN at main.cc (64, 5)
+<Predicate Optimized v2>
+    remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+    LOOP BEGIN at main.cc (71, 9)
+        remark #15541: loop was not vectorized: outer loop is not an auto-vectorization candidate.
+
+        LOOP BEGIN at main.cc (21, 5)
+            remark #15344: Loop was not vectorized: vector dependence prevents vectorization
+            remark #15346: vector dependence: assumed FLOW dependence between [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver0/main.cc (26, 13) ] and [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio3/ver0/main.cc (26, 13) ] 
+            remark #25438: Loop unrolled without remainder by 4
+        LOOP END
+    LOOP END
+LOOP END
+
+LOOP BEGIN at main.cc (90, 5)
+    remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+    remark #25438: Loop unrolled without remainder by 8
+LOOP END
+=================================================================
+
+---- Begin Inlining Report ----
+Option Values:
+  inline-threshold: 225
+  inlinehint-threshold: 325
+  inlinecold-threshold: 45
+  inlineoptsize-threshold: 15
+
+DEAD STATIC FUNC: CPUTime::start()
+
+DEAD STATIC FUNC: CPUTime::readTime()
+
+DEAD STATIC FUNC: CPUTime::CPUTime()
+
+DEAD STATIC FUNC: llvm.ssa.copy.f32
+
+DEAD STATIC FUNC: llvm.ssa.copy.f64
+
+DEAD STATIC FUNC: llvm.ssa.copy.i32
+
+DEAD STATIC FUNC: llvm.ssa.copy.i64
+
+COMPILE FUNC: CalculateElectricPotential(int, Charge const*, double, double, double, float&)
+   -> DELETE: llvm.sqrt.f64 main.cc(26,27)
+   -> llvm.sqrt.f64 main.cc(26,27)
+   -> llvm.sqrt.f64 main.cc(26,27)
+   -> llvm.sqrt.f64 main.cc(26,27)
+   -> llvm.sqrt.f64 main.cc(26,27)
+   -> llvm.sqrt.f64 main.cc(26,27)
+   -> llvm.sqrt.f64 main.cc(26,27)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(21,25)
+
+COMPILE FUNC: rngNumber(float, float, float)
+   -> EXTERN: rand main.cc(36,10)
+
+COMPILE FUNC: main
+   -> DELETE: llvm.dbg.assign main.cc
+   -> llvm.dbg.assign main.cc
+   -> INLINE: CPUTime::CPUTime() main.cc(46,13) (-15035<=337)
+   -> EXTERN: malloc main.cc(49,33)
+   -> EXTERN: puts main.cc(52,5)
+   -> EXTERN: puts main.cc(60,5)
+   -> EXTERN: printf main.cc(62,5)
+   -> INLINE: rngNumber(float, float, float) main.cc(55,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(56,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(57,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: rngNumber(float, float, float) main.cc(58,18) (5<=337)
+      -> DELETE: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+      -> EXTERN: rand main.cc(36,10)
+   -> INLINE: CPUTime::start() main.cc(69,32) (40<=1012)
+      -> INLINE: CPUTime::readTime() cpu_time.hpp(45,36) (-14955<=487)
+         -> DELETE: llvm.dbg.assign cpu_time.hpp
+         -> DELETE: gettimeofday cpu_time.hpp(38,7)
+         -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+         -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> INLINE: CPUTime::start() main.cc(77,32) (-14960<=487)
+      -> INLINE: CPUTime::readTime() cpu_time.hpp(45,36) (-14955<=487)
+         -> DELETE: llvm.dbg.assign cpu_time.hpp
+         -> DELETE: gettimeofday cpu_time.hpp(38,7)
+         -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+         -> EXTERN: gettimeofday cpu_time.hpp(38,7)
+   -> INLINE: CalculateElectricPotential(int, Charge const*, double, double, double, float&) main.cc(75,13) (85<=225)
+      -> DELETE: llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+      -> llvm.sqrt.f64 main.cc(26,27)
+   -> DELETE: printf main.cc(85,2)
+   -> DELETE: fflush main.cc(87,2)
+   -> llvm.sqrt.f64 main.cc(94,11)
+   -> EXTERN: puts main.cc(95,5)
+   -> EXTERN: printf main.cc(96,5)
+   -> EXTERN: puts main.cc(98,5)
+   -> EXTERN: puts main.cc(99,5)
+   -> EXTERN: printf main.cc(100,5)
+   -> EXTERN: free main.cc(101,5)
+   -> DELETE: llvm.memset.p0.i64 main.cc(67,15)
+   -> DELETE: llvm.memset.p0.i64 main.cc(67,15)
+   -> EXTERN: printf main.cc(85,2)
+   -> EXTERN: fflush main.cc(87,2)
+   -> llvm.memset.p0.i64 main.cc(67,15)
+   -> EXTERN: printf main.cc(85,2)
+   -> EXTERN: fflush main.cc(87,2)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(54,28)
+   -> DELETE: llvm.ssa.copy.i64
+   -> DELETE: llvm.ssa.copy.f64 main.cc(86,29)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(86,15)
+   -> DELETE: llvm.ssa.copy.i64
+   -> DELETE: llvm.ssa.copy.f32
+   -> DELETE: llvm.ssa.copy.i64 main.cc(21,25)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(71,35)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(81,20)
+   -> DELETE: llvm.ssa.copy.f64 main.cc(81,24)
+   -> DELETE: llvm.ssa.copy.f64
+   -> DELETE: llvm.ssa.copy.f64
+   -> DELETE: llvm.ssa.copy.i32 main.cc(64,32)
+   -> DELETE: llvm.ssa.copy.i64 main.cc(90,27)
+   -> llvm.vector.reduce.fadd.v8f64 main.cc(91,14)
+
+---- End Inlining Report ------
+Register allocation report for: CalculateElectricPotential(int, Charge const*, double, double, double, float&)
+FUNCTION BEGIN
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:21:5)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 1 [ mxcsr  ]
+ Available : 19 [ rbp rbx r8 r9 r10 r11 r12 r13 r14 r15 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 17 [ eflags rax rcx rdi rdx rsi zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END
+Register allocation report for: rngNumber(float, float, float)
+FUNCTION BEGIN
+ 2 reloads 2 spills 
+
+Hardware registers used
+ Reserved : 3 [ mxcsr rsp ssp  ]
+ Available : 29 [ rbp rcx rdi rsi r8 r9 r10 r11 r12 r13 r14 r15 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 7 [ eflags rax rbx rdx zmm0 zmm1 zmm2  ]
+
+Routine stack 
+ Variables : 8 Bytes
+   Read Count : 2
+   Write Count : 2
+ Spills : 8 Bytes
+   Read Count : 2
+   Write Count : 2
+
+FUNCTION END
+Register allocation report for: main
+FUNCTION BEGIN
+ 4 reloads 4 spills 
+ LOOP1 BEGIN at (main.cc:54:5)
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:64:5)
+  1 reloads 1 spills 
+  LOOP2 BEGIN at (main.cc:71:9)
+   LOOP3 BEGIN at (main.cc:21:5 @[ main.cc:75:13 ])
+   LOOP3 END
+  LOOP2 END
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:64:5)
+  2 reloads 2 spills 
+  LOOP2 BEGIN at (main.cc:71:9)
+   LOOP3 BEGIN at (main.cc:21:5 @[ main.cc:75:13 ])
+   LOOP3 END
+  LOOP2 END
+ LOOP1 END
+ LOOP1 BEGIN at (main.cc:90:5)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 4 [ mxcsr rsp ssp rip  ]
+ Available : 14 [ r8 r9 r10 r11 r13 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 4 [ rbx r12 r15 r14  ]
+ Assigned : 22 [ eflags rax rbp rbx rcx rdi rdx rsi r12 r14 r15 zmm0 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10  ]
+
+Routine stack 
+ Variables : 20536 Bytes
+   Read Count : 43
+   Write Count : 14
+ Spills : 80 Bytes
+   Read Count : 7
+   Write Count : 7
+
+FUNCTION END

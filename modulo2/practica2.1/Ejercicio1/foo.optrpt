@@ -1,0 +1,178 @@
+Begin optimization report for: get_time_milisec
+=================================================================
+
+Begin optimization report for: foo
+
+LOOP BEGIN at foo.c (23, 2)
+<Multiversioned v2>
+    remark #15319: Loop was not vectorized: novector directive used
+LOOP END
+
+LOOP BEGIN at foo.c (23, 2)
+<Multiversioned v1>
+    remark #25228: Loop multiversioned for Data Dependence
+    remark #15344: Loop was not vectorized: vector dependence prevents vectorization
+    remark #15346: vector dependence: assumed FLOW dependence between [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio1/foo.c (24, 3) ] and [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio1/foo.c (24, 29) ] 
+    remark #25439: Loop unrolled with remainder by 8
+    remark #25583: Number of Array Refs Scalar Replaced In Loop: 8
+LOOP END
+
+LOOP BEGIN at foo.c (23, 2)
+<Remainder loop>
+    remark #25583: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+=================================================================
+
+Begin optimization report for: reduction
+
+LOOP BEGIN at foo.c (30, 2)
+    remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+    remark #25439: Loop unrolled with remainder by 8
+LOOP END
+
+LOOP BEGIN at foo.c (30, 2)
+<Remainder loop>
+    remark #25585: Loop converted to switch
+LOOP END
+=================================================================
+
+Begin optimization report for: main
+
+LOOP BEGIN at foo.c (53, 2)
+LOOP END
+
+LOOP BEGIN at foo.c (23, 2)
+    remark #15344: Loop was not vectorized: vector dependence prevents vectorization
+    remark #15346: vector dependence: assumed FLOW dependence between [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio1/foo.c (24, 3) ] and [ /home/carlos/Docencia/Docencia 24-25/PSD/GitHub/Codigos/practica2-1/alumnos/Ejercicio1/foo.c (24, 29) ] 
+    remark #25439: Loop unrolled with remainder by 8
+    remark #25583: Number of Array Refs Scalar Replaced In Loop: 8
+LOOP END
+
+LOOP BEGIN at foo.c (23, 2)
+<Remainder loop>
+    remark #25583: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at foo.c (30, 2)
+    remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+    remark #25439: Loop unrolled with remainder by 8
+LOOP END
+
+LOOP BEGIN at foo.c (30, 2)
+<Remainder loop>
+    remark #25585: Loop converted to switch
+LOOP END
+=================================================================
+
+---- Begin Inlining Report ----
+Option Values:
+  inline-threshold: 225
+  inlinehint-threshold: 325
+  inlinecold-threshold: 45
+  inlineoptsize-threshold: 15
+
+DEAD STATIC FUNC: atoi
+
+COMPILE FUNC: get_time_milisec
+
+COMPILE FUNC: foo
+
+COMPILE FUNC: reduction
+
+COMPILE FUNC: main
+   -> INLINE: atoi foo.c(44,7)
+   -> INLINE: get_time_milisec foo.c(57,7)
+   -> INLINE: foo foo.c(58,2)
+   -> INLINE: get_time_milisec foo.c(59,7)
+   -> INLINE: reduction foo.c(60,43)
+
+---- End Inlining Report ------
+Register allocation report for: get_time_milisec
+FUNCTION BEGIN
+
+Hardware registers used
+ Reserved : 4 [ rsp ssp rip mxcsr  ]
+ Available : 31 [ rbp rbx rcx rdx r8 r9 r10 r11 r12 r13 r14 r15 zmm1 zmm2 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 5 [ eflags rax rdi rsi zmm0  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END
+Register allocation report for: foo
+FUNCTION BEGIN
+ LOOP1 BEGIN at (foo.c:23:2)
+ LOOP1 END
+ LOOP1 BEGIN at (foo.c:23:2)
+ LOOP1 END
+ LOOP1 BEGIN at (foo.c:23:2)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 4 [ rip mxcsr rsp ssp  ]
+ Available : 22 [ rbp r8 r9 r10 r11 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 5 [ rbx r12 r13 r14 r15  ]
+ Assigned : 14 [ eflags rax rbx rcx rdi rdx rsi r12 r13 r14 r15 zmm0 zmm1 zmm2  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END
+Register allocation report for: reduction
+FUNCTION BEGIN
+ LOOP1 BEGIN at (foo.c:30:2)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 1 [ mxcsr  ]
+ Available : 27 [ rbp rbx r8 r9 r10 r11 r12 r13 r14 r15 zmm3 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 0 [  ]
+ Assigned : 9 [ eflags rax rcx rdi rdx rsi zmm0 zmm1 zmm2  ]
+
+Routine stack 
+ Variables : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+ Spills : 0 Bytes
+   Read Count : 0
+   Write Count : 0
+
+FUNCTION END
+Register allocation report for: main
+FUNCTION BEGIN
+ 2 reloads 2 spills 
+ LOOP1 BEGIN at (foo.c:30:2 @[ foo.c:60:43 ])
+ LOOP1 END
+ LOOP1 BEGIN at (foo.c:23:2 @[ foo.c:58:2 ])
+ LOOP1 END
+ LOOP1 BEGIN at (foo.c:23:2 @[ foo.c:58:2 ])
+ LOOP1 END
+ LOOP1 BEGIN at (foo.c:53:2)
+ LOOP1 END
+
+Hardware registers used
+ Reserved : 4 [ mxcsr rsp ssp rip  ]
+ Available : 20 [ r8 r9 r10 r11 zmm4 zmm5 zmm6 zmm7 zmm8 zmm9 zmm10 zmm11 zmm12 zmm13 zmm14 zmm15 k0_k1 k2_k3 k4_k5 k6_k7  ]
+ Callee Saved : 6 [ rbp rbx r12 r13 r14 r15  ]
+ Assigned : 16 [ eflags rax rbp rbx rcx rdi rdx rsi r12 r13 r14 r15 zmm0 zmm1 zmm2 zmm3  ]
+
+Routine stack 
+ Variables : 20 Bytes
+   Read Count : 4
+   Write Count : 5
+ Spills : 16 Bytes
+   Read Count : 2
+   Write Count : 2
+
+FUNCTION END
