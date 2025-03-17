@@ -19,17 +19,13 @@ void train_test_split(CSVData data, CSVData *train, CSVData *test, float test_si
     // Allocate and copy labels
     train->labels = (char **)malloc((n_features + 1) * sizeof(char *));
     test->labels = (char **)malloc((n_features + 1) * sizeof(char *));
-    for (int i = 0; i < n_features; i++) {
+    for (int i = 0; i < n_features +1; i++) {
         train->labels[i] = strdup(data.labels[i]);
         test->labels[i] = strdup(data.labels[i]);
     }
-    
-    train->features = (float **)malloc(n_features * sizeof(float *));
-    test->features = (float **)malloc(n_features * sizeof(float *));
-    for (int i = 0; i < n_features; i++) {
-        train->features[i] = (float *)malloc(train_count * sizeof(float));
-        test->features[i] = (float *)malloc(test_count * sizeof(float));
-    }
+
+    train->features = (float *)malloc(n_features * train_count * sizeof(float));
+    test->features = (float *)malloc(n_features * test_count * sizeof(float));
 
     train->y = (int *)malloc(train_count * sizeof(int));
     test->y = (int *)malloc(test_count * sizeof(int));
@@ -54,7 +50,7 @@ void train_test_split(CSVData data, CSVData *train, CSVData *test, float test_si
     for (int i = 0; i < train_count; i++) {
         int idx = indices[i];
         for (int j = 0; j < n_features; j++) {
-            train->features[j][i] = data.features[j][idx];
+            train->features[i * n_features + j] = data.features[idx * n_features + j];
         }
         train->y[i] = data.y[idx];
     }
@@ -62,10 +58,9 @@ void train_test_split(CSVData data, CSVData *train, CSVData *test, float test_si
     for (int i = 0; i < test_count; i++) {
         int idx = indices[train_count + i];
         for (int j = 0; j < n_features; j++) {
-            test->features[j][i] = data.features[j][idx];
+            test->features[i * n_features + j] = data.features[idx * n_features + j];
         }
         test->y[i] = data.y[idx];
     }
     free(indices);
 }
-

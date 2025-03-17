@@ -7,24 +7,22 @@
 #include "extra.h"
 
 // Compute Euclidean distance
-float euclideanDistance(float **features, int sample_idx, float *queryX, int n_features) {
+float euclideanDistance(float *features, int sample_idx, float *queryX, int n_features, int feature_row_len) {
     float sum = 0.0f;
-    
-    #pragma omp simd reduction(+:sum)
+
+    #pragma omp simd aligned(features, queryX: 32) reduction(+:sum)
     for (int i = 0; i < n_features; i++) {
-        float diff = features[i][sample_idx] - queryX[i];
+        float diff = features[sample_idx*feature_row_len + i] - queryX[i];
         sum += diff * diff;
     }
     return sqrtf(sum);
 }
 
-// K-Nearest Neighbors Classification
 int classify(CSVData train_data, float *queryX, int k, float *distances, int *labels) {
-    
-    #pragma omp simd
-    // Compute distances
+
+    #pragma omp simd aligned(distances, labels: 32)
     for (int i = 0; i < train_data.n_samples; i++) {
-        distances[i] = euclideanDistance(train_data.features, i, queryX, train_data.n_features);
+        distances[i] = euclideanDistance(train_data.features, i, queryX, train_data.n_features, train_data.n_features);
         labels[i] = train_data.y[i];
     }
 
@@ -66,7 +64,9 @@ int classify(CSVData train_data, float *queryX, int k, float *distances, int *la
 // Evaluate model with precision and recall
 void evaluate_model(float *precision, float *recall, CSVData test_data, int* y_pred) {
     int tp = 0, fp = 0, fn = 0;
-    #pragma omp simd
+    int *test_y = test_data.y;
+
+    #pragma omp simd aligned(y_pred, test_y: 32) reduction(+:tp, fp, fn)
     for (int i = 0; i < test_data.n_samples; ++i) {
         if (y_pred[i] == 1 && test_data.y[i] == 1) tp++;
         if (y_pred[i] == 1 && test_data.y[i] == 0) fp++;
@@ -86,28 +86,27 @@ int main() {
     // Split dataset into training and testing
     CSVData train_data, test_data;
     train_test_split(data, &train_data, &test_data, 0.2f, 7);
-    
+
     float *distances = (float *)malloc(train_data.n_samples * sizeof(float));
     int *labels = (int *)malloc(train_data.n_samples * sizeof(int));
     int *y_pred = (int *)malloc(test_data.n_samples * sizeof(int));
-    
-    int correct = 0;
+
     clock_t start = clock();
-    
+
     // Classify each test sample
     int k = 4;
     float *queryX = (float *)malloc(test_data.n_features * sizeof(float));
     for (int i = 0; i < test_data.n_samples; i++) {
         for (int j = 0; j < test_data.n_features; j++) {
-            queryX[j] = test_data.features[j][i];
+            queryX[j] = test_data.features[i * test_data.n_features + j]; // Corrected access
         }
         y_pred[i] = classify(train_data, queryX, k, distances, labels);
     }
     free(queryX);
-    
+
     clock_t end = clock();
     double duration = (double)(end - start) / CLOCKS_PER_SEC;
-    
+
     // Print results
     float precision, recall;
     evaluate_model(&precision, &recall, test_data, y_pred);
@@ -118,10 +117,10 @@ int main() {
     free_csv_data(data);
     free_csv_data(train_data);
     free_csv_data(test_data);
-    
+
     free(distances);
     free(labels);
     free(y_pred);
-    
+
     return 0;
 }

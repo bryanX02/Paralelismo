@@ -9,8 +9,6 @@ typedef struct {
     int y;
 } Tsample;
 
-
-
 typedef struct {
     Tsample *samples;
     char **labels;
@@ -19,9 +17,10 @@ typedef struct {
 } CSVData;
 */
 
+
 typedef struct {
     //Tsample *samples;
-    float **features;
+    float *features;
     int *y;
     char **labels;
     int n_features;
