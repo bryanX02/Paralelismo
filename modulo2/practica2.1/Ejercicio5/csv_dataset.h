@@ -2,6 +2,8 @@
 #define CSV_DATASET_H
 
 // Function to read CSV file into X, y, and labels
+
+/*
 typedef struct {
     float *X;  //[n_features]
     int y;
@@ -15,9 +17,31 @@ typedef struct {
     int n_features;
     int n_samples;
 } CSVData;
+*/
+
+typedef struct {
+    //Tsample *samples;
+    float **features;
+    int *y;
+    char **labels;
+    int n_features;
+    int n_samples;
+} CSVData;
+
 
 CSVData read_csv(const char *filename);
 void free_csv_data(CSVData data);
 
 #endif
 
+/*
+
+typedef struct {
+    //Tsample *samples;
+    float **features;
+    int *y;
+    char **labels;
+    int n_features;
+    int n_samples;
+} CSVData;
+ */

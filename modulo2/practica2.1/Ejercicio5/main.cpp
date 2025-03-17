@@ -7,10 +7,12 @@
 #include "extra.h"
 
 // Compute Euclidean distance
-float euclideanDistance(float *a, float *b, int n_features) {
+float euclideanDistance(float **features, int sample_idx, float *queryX, int n_features) {
     float sum = 0.0f;
+    
+    #pragma omp simd reduction(+:sum)
     for (int i = 0; i < n_features; i++) {
-        double diff = a[i] - b[i];
+        float diff = features[i][sample_idx] - queryX[i];
         sum += diff * diff;
     }
     return sqrtf(sum);
@@ -18,12 +20,12 @@ float euclideanDistance(float *a, float *b, int n_features) {
 
 // K-Nearest Neighbors Classification
 int classify(CSVData train_data, float *queryX, int k, float *distances, int *labels) {
-
     
+    #pragma omp simd
     // Compute distances
     for (int i = 0; i < train_data.n_samples; i++) {
-        distances[i] = euclideanDistance(train_data.samples[i].X, queryX, train_data.n_features);
-        labels[i] = train_data.samples[i].y;
+        distances[i] = euclideanDistance(train_data.features, i, queryX, train_data.n_features);
+        labels[i] = train_data.y[i];
     }
 
     // Find k nearest neighbors using a selection approach
@@ -58,19 +60,17 @@ int classify(CSVData train_data, float *queryX, int k, float *distances, int *la
         }
     }
 
-
     return max_label;
 }
 
 // Evaluate model with precision and recall
-void evaluate_model(float *precision, float *recall, Tsample* samples, int* y_pred, int n_samples) {
+void evaluate_model(float *precision, float *recall, CSVData test_data, int* y_pred) {
     int tp = 0, fp = 0, fn = 0;
-
-    for (int i = 0; i < n_samples; ++i) {
-
-        if (y_pred[i] == 1 && samples[i].y == 1) tp++;
-        if (y_pred[i] == 1 && samples[i].y == 0) fp++;
-        if (y_pred[i] == 0 && samples[i].y == 1) fn++;
+    #pragma omp simd
+    for (int i = 0; i < test_data.n_samples; ++i) {
+        if (y_pred[i] == 1 && test_data.y[i] == 1) tp++;
+        if (y_pred[i] == 1 && test_data.y[i] == 0) fp++;
+        if (y_pred[i] == 0 && test_data.y[i] == 1) fn++;
     }
 
     *precision = (float)(tp) / (float)(tp + fp);
@@ -89,26 +89,30 @@ int main() {
     
     float *distances = (float *)malloc(train_data.n_samples * sizeof(float));
     int *labels = (int *)malloc(train_data.n_samples * sizeof(int));
-    int *y_pred = (int *)malloc(train_data.n_samples * sizeof(int));
+    int *y_pred = (int *)malloc(test_data.n_samples * sizeof(int));
     
     int correct = 0;
     clock_t start = clock();
     
     // Classify each test sample
     int k = 4;
+    float *queryX = (float *)malloc(test_data.n_features * sizeof(float));
     for (int i = 0; i < test_data.n_samples; i++) {
-        y_pred[i]= classify(train_data, test_data.samples[i].X, k, distances, labels);
+        for (int j = 0; j < test_data.n_features; j++) {
+            queryX[j] = test_data.features[j][i];
+        }
+        y_pred[i] = classify(train_data, queryX, k, distances, labels);
     }
+    free(queryX);
     
     clock_t end = clock();
     double duration = (double)(end - start) / CLOCKS_PER_SEC;
     
     // Print results
     float precision, recall;
-    evaluate_model(&precision, &recall, test_data.samples, y_pred, test_data.n_samples);
+    evaluate_model(&precision, &recall, test_data, y_pred);
     printf("Precision: %.2f Recall: %.2f\n", precision, recall);
     printf("Testing (%d) completed in %f seconds.\n", test_data.n_samples, duration);
-
 
     // Free memory
     free_csv_data(data);
@@ -117,7 +121,7 @@ int main() {
     
     free(distances);
     free(labels);
+    free(y_pred);
     
     return 0;
 }
-

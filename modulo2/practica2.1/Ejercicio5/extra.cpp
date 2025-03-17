@@ -24,8 +24,15 @@ void train_test_split(CSVData data, CSVData *train, CSVData *test, float test_si
         test->labels[i] = strdup(data.labels[i]);
     }
     
-    train->samples = (Tsample*)malloc(train->n_samples * sizeof(Tsample));
-    test->samples  = (Tsample*)malloc(test->n_samples  * sizeof(Tsample));
+    train->features = (float **)malloc(n_features * sizeof(float *));
+    test->features = (float **)malloc(n_features * sizeof(float *));
+    for (int i = 0; i < n_features; i++) {
+        train->features[i] = (float *)malloc(train_count * sizeof(float));
+        test->features[i] = (float *)malloc(test_count * sizeof(float));
+    }
+
+    train->y = (int *)malloc(train_count * sizeof(int));
+    test->y = (int *)malloc(test_count * sizeof(int));
 
     // Initialize random seed
     srand(random_state);
@@ -46,20 +53,18 @@ void train_test_split(CSVData data, CSVData *train, CSVData *test, float test_si
     // Split data into training and testing sets
     for (int i = 0; i < train_count; i++) {
         int idx = indices[i];
-        train->samples[i].X = (float *)malloc(n_features*sizeof(float*));
         for (int j = 0; j < n_features; j++) {
-            train->samples[i].X[j] = data.samples[idx].X[j];
+            train->features[j][i] = data.features[j][idx];
         }
-        train->samples[i].y = data.samples[idx].y;
+        train->y[i] = data.y[idx];
     }
 
     for (int i = 0; i < test_count; i++) {
         int idx = indices[train_count + i];
-        test->samples[i].X = (float *)malloc(n_features*sizeof(float*));
         for (int j = 0; j < n_features; j++) {
-            test->samples[i].X[j] = data.samples[idx].X[j];
+            test->features[j][i] = data.features[j][idx];
         }
-        test->samples[i].y = data.samples[idx].y;
+        test->y[i] = data.y[idx];
     }
     free(indices);
 }

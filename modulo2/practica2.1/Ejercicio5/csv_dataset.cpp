@@ -39,13 +39,14 @@ CSVData read_csv(const char *filename) {
     CSVData data;
     data.n_features = n_features;
     data.n_samples = n_samples;
-
-    data.samples = (Tsample*)malloc(n_samples * sizeof(Tsample));
+    
     data.labels = (char **)malloc((n_features + 1) * sizeof(char *));
-
-    for (int i = 0; i < n_samples; i++) {
-        data.samples[i].X = (float *)malloc(n_features * sizeof(float));
+    
+    data.features = (float **)malloc(n_features * sizeof(float *));
+    for(int i=0; i<n_features; i++){
+        data.features[i] = (float *)malloc(n_samples * sizeof(float));
     }
+    data.y = (int *)malloc(n_samples * sizeof(int *));
 
     // Read the header again and store labels
     if (fgets(buffer, sizeof(buffer), file)) {
@@ -61,39 +62,37 @@ CSVData read_csv(const char *filename) {
     // Read the data
     int row = 0;
     while (fgets(buffer, sizeof(buffer), file) && row < n_samples) {
-        int col = 0;
         char *token = strtok(buffer, ",\n");
-        while (token) {
-            if (col < n_features) {
-                data.samples[row].X[col] = atof(token);
-            } else {
-                data.samples[row].y = atoi(token);
-            }
+        for (int col = 0; col < n_features; col++) {
+            data.features[col][row] = atof(token);
             token = strtok(NULL, ",\n");
-            col++;
         }
+        data.y[row] = atoi(token); // Última columna es `y`
         row++;
     }
 
     fclose(file);
-  
     return data;
 }
+
 
 // Function to free CSVData memory
 void free_csv_data(CSVData data) {
     if (data.labels) {
-        for (int i = 0; i < data.n_features; i++) {
-            if (data.labels[i])
-                free(data.labels[i]);
+        for (int i = 0; i < data.n_features + 1; i++) {
+            free(data.labels[i]);
         }
         free(data.labels);
     }
     
-    if (data.samples) {
-        for (int i = 0; i < data.n_samples; i++) {
-            free(data.samples[i].X);
+    if (data.features) {
+        for (int i = 0; i < data.n_features; i++) {
+            free(data.features[i]);
         }
-        free(data.samples);
+        free(data.features);
+    }
+
+    if (data.y) {
+        free(data.y);
     }
 }
