@@ -78,21 +78,14 @@ CSVData read_csv(const char *filename) {
 
 // Function to free CSVData memory
 void free_csv_data(CSVData data) {
-    if (data.labels) {
-        for (int i = 0; i < data.n_features + 1; i++) {
-            free(data.labels[i]);
-        }
-        free(data.labels);
-    }
-    
     if (data.features) {
         for (int i = 0; i < data.n_features; i++) {
             free(data.features[i]);
         }
         free(data.features);
     }
-
     if (data.y) {
         free(data.y);
     }
 }
+
