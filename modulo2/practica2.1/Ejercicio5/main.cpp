@@ -20,13 +20,14 @@ float euclideanDistance(float *features, int sample_idx, float *queryX, int n_fe
 
 int classify(CSVData train_data, float *queryX, int k, float *distances, int *labels) {
 
-    #pragma omp simd aligned(distances, labels: 32)
+    #pragma omp simd
     for (int i = 0; i < train_data.n_samples; i++) {
         distances[i] = euclideanDistance(train_data.features, i, queryX, train_data.n_features, train_data.n_features);
         labels[i] = train_data.y[i];
     }
 
     // Find k nearest neighbors using a selection approach
+    #pragma ivdep
     for (int i = 0; i < k; i++) {
         int min_index = i;
         for (int j = i + 1; j < train_data.n_samples; j++) {
@@ -46,12 +47,14 @@ int classify(CSVData train_data, float *queryX, int k, float *distances, int *la
 
     // Count label occurrences
     int label_count[10] = {0};
+    #pragma ivdep
     for (int i = 0; i < k; i++) {
         label_count[labels[i]]++;
     }
     
     // Determine most frequent label
     int max_label = 0;
+    #pragma ivdep
     for (int i = 1; i < 10; i++) {
         if (label_count[i] > label_count[max_label]) {
             max_label = i;
@@ -124,3 +127,4 @@ int main() {
 
     return 0;
 }
+
