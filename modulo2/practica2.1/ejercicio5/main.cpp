@@ -6,6 +6,21 @@
 #include "csv_dataset.h"
 #include "extra.h"
 
+// ALUMNOS:
+// - Daniel Coleto
+// - Bryan Quilumba
+
+// Hemos modificado el código original para optimizar sus tiempos de ejecución mediante vectorización.
+// Cambios que hemos aplicado:
+// - Array of Structs -> Struct of Arrays
+// - Omp simd en las funciones de cálculo de distancias (warning)
+// - Omp simd en la función de clasificación (warning)
+// - Omp simd en la función de evaluación del modelo
+// - Hemos pasado de usar una matriz de features a un array unidimension de features
+
+// Con esto hemos logrado una mejora del 10% en el tiempo de ejecución (2,95s -> 2,67s).
+// Creemos que se podría mejorar más si las sumas se hicieran vectorizadas, y lograsemos resolver los warnings por conflictos.
+
 // Compute Euclidean distance
 float euclideanDistance(float *a, float *b, int n_features) {
     float sum = 0.0f;
