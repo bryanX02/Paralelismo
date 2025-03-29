@@ -4,6 +4,10 @@
 #include "csv_dataset.h"
 #include "extra.h"
 
+// Tiempos en ordenador personal con i7-11800H
+// 0. Sin paralelizar nada: 7,44s
+// 1. Paralelizando la asignación de clusters: 5,16s (30,65% mejora)
+// 2. Paralelizando la actualización de centroides: 2,50 s (51,55% mejora)
 
 void initializeCentroids(std::vector<Centroid>& centroids, std::vector<Point>& data, int k) {
     srand(42);
@@ -25,6 +29,12 @@ double euclideanDistance(const Point& a, const Centroid& b) {
 
 // Assign clusters to points
 void assignClusters(std::vector<Point>& data, std::vector<Centroid>& centroids, int k) {
+
+    // 1º mejora
+    // Paralaelizamos la asignación de clusters, ya que cada punto es independiente
+    // Se utiliza schedule(static) para dividir el trabajo de manera equitativa entre los hilos
+    // Solo con esto, el rendimiento mejora un 30,65% en un i7-11800H
+    #pragma omp parallel for schedule(static)
     for (size_t i = 0; i < data.size(); i++) {
         double minDist = std::numeric_limits<double>::max();
         int bestCluster = -1;
@@ -39,20 +49,46 @@ void assignClusters(std::vector<Point>& data, std::vector<Centroid>& centroids, 
     }
 }
 
-// Update centroids
+// Update centroids 
 void updateCentroids(std::vector<Point>& data, std::vector<Centroid>& centroids, int k, int dimensions) {
     std::vector<std::vector<double>> sumCoords(k, std::vector<double>(dimensions, 0.0));
     std::vector<int> count(k, 0);
 
-    for (size_t i = 0; i < data.size(); i++) {
-        int cluster = data[i].cluster;
-        count[cluster]++;
-        
-        for (int d = 0; d < dimensions; d++) {
-            sumCoords[cluster][d] += data[i].coords[d];
+    // 2º mejora
+    // En un principio, se intento paraalelizar la actualización de centroides usando reduction, pero no funcionó
+    // porque no se admiten arrglos multidimensionales. Entonces, hemos decidido usar una reducción manual
+    // Para ello, se crean vectores locales para cada hilo y luego se combinan en una sección crítica  
+    // Gracias a esto, el rendimiento mejora un 51,55% en un i7-11800H (redimiento acumulado del 66,4%)
+    #pragma omp parallel 
+    {
+
+        // Vectores locales para evitar condiciones de carrera
+        std::vector<std::vector<double>> localSumCoords(k, std::vector<double>(dimensions, 0.0));
+        std::vector<int> localCount(k, 0);
+
+        // Cada hilo calcula su propia suma y cuenta
+        #pragma omp for
+        for (size_t i = 0; i < data.size(); i++) {
+            int cluster = data[i].cluster;
+            localCount[cluster]++;
+            for (int d = 0; d < dimensions; d++) {
+                localSumCoords[cluster][d] += data[i].coords[d];
+            }
+        }
+
+        // Reducción manual, combinando resultados de todos los hilos
+        #pragma omp critical
+        {
+            for (int j = 0; j < k; j++) {
+                count[j] += localCount[j];
+                for (int d = 0; d < dimensions; d++) {
+                    sumCoords[j][d] += localSumCoords[j][d];
+                }
+            }
         }
     }
 
+    // Finalmente, dejamos el mismo bloque que calcula los nuevos centroides
     for (int j = 0; j < k; j++) {
         if (count[j] > 0) {
             for (int d = 0; d < dimensions; d++) {
