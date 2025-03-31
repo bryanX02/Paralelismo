@@ -7,7 +7,8 @@
 // Tiempos en ordenador personal con i7-11800H
 // 0. Sin paralelizar nada: 7,44s
 // 1. Paralelizando la asignación de clusters: 5,16s (30,65% mejora)
-// 2. Paralelizando la actualización de centroides: 2,50 s (51,55% mejora)
+// 2. Paralelizando la actualización de centroides: 2,50 s (51,55% mejora)ç
+// Total: 66,4% mejora respecto a la versión sin paralelizar
 
 void initializeCentroids(std::vector<Centroid>& centroids, std::vector<Point>& data, int k) {
     srand(42);
@@ -34,7 +35,7 @@ void assignClusters(std::vector<Point>& data, std::vector<Centroid>& centroids, 
     // Paralaelizamos la asignación de clusters, ya que cada punto es independiente
     // Se utiliza schedule(static) para dividir el trabajo de manera equitativa entre los hilos
     // Solo con esto, el rendimiento mejora un 30,65% en un i7-11800H
-    #pragma omp parallel for schedule(static)
+    #pragma omp parallel for schedule(dynamic, 64)
     for (size_t i = 0; i < data.size(); i++) {
         double minDist = std::numeric_limits<double>::max();
         int bestCluster = -1;
