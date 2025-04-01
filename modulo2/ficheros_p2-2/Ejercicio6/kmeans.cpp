@@ -1,5 +1,6 @@
 #include <math.h>
 #include <omp.h>
+#include <immintrin.h>
 
 #include "csv_dataset.h"
 #include "extra.h"
@@ -7,8 +8,9 @@
 // Tiempos en ordenador personal con i7-11800H
 // 0. Sin paralelizar nada: 7,44s
 // 1. Paralelizando la asignación de clusters: 5,16s (30,65% mejora)
-// 2. Paralelizando la actualización de centroides: 2,50 s (51,55% mejora)ç
-// Total: 66,4% mejora respecto a la versión sin paralelizar
+// 2. Paralelizando la actualización de centroides: 2,50 s (51,55% mejora)
+// 3. Vectorizando la actualización de centroides con SIMD: 1,66 s (33,6% mejora)
+// Total: 77,69% de mejora respecto a la versión sin paralelizar
 
 void initializeCentroids(std::vector<Centroid>& centroids, std::vector<Point>& data, int k) {
     srand(42);
@@ -22,6 +24,15 @@ void initializeCentroids(std::vector<Centroid>& centroids, std::vector<Point>& d
 // Compute Euclidean distance for N-dimensional space
 double euclideanDistance(const Point& a, const Centroid& b) {
     double sum = 0.0;
+    
+    /* No mejora, el tiempo es el mismo
+    #pragma omp simd reduction(+:sum)
+    for (size_t i = 0; i < a.coords.size(); i++) {
+        double diff = a.coords[i] - b.coords[i];
+        sum += diff * diff;
+    }
+    */
+
     for (size_t i = 0; i < a.coords.size(); i++) {
         sum += pow(a.coords[i] - b.coords[i], 2);
     }
@@ -34,8 +45,10 @@ void assignClusters(std::vector<Point>& data, std::vector<Centroid>& centroids, 
     // 1º mejora
     // Paralaelizamos la asignación de clusters, ya que cada punto es independiente
     // Se utiliza schedule(static) para dividir el trabajo de manera equitativa entre los hilos
+    // Hemos probado con schedule(dynamic), schedule(guided), con tamaños de bloque de 32, 64, 128, ... 
+    // pero el rendimiento no mejora y es muy inestable. Con schedule(static) se obtiene el mejor rendimiento y es más estable
     // Solo con esto, el rendimiento mejora un 30,65% en un i7-11800H
-    #pragma omp parallel for schedule(dynamic, 64)
+    #pragma omp parallel for schedule(static)
     for (size_t i = 0; i < data.size(); i++) {
         double minDist = std::numeric_limits<double>::max();
         int bestCluster = -1;
@@ -72,6 +85,11 @@ void updateCentroids(std::vector<Point>& data, std::vector<Centroid>& centroids,
         for (size_t i = 0; i < data.size(); i++) {
             int cluster = data[i].cluster;
             localCount[cluster]++;
+
+            // 3º mejora
+            // Se intenta paralelizar los bucles internos mediante vectorización SIMD
+            // Esto logra un rendimiento superior en un 33,6%, acumulando un 77,69% de mejora
+            #pragma omp simd
             for (int d = 0; d < dimensions; d++) {
                 localSumCoords[cluster][d] += data[i].coords[d];
             }
@@ -82,6 +100,8 @@ void updateCentroids(std::vector<Point>& data, std::vector<Centroid>& centroids,
         {
             for (int j = 0; j < k; j++) {
                 count[j] += localCount[j];
+
+                // #pragma omp simd (no mejora en la sección crítica)
                 for (int d = 0; d < dimensions; d++) {
                     sumCoords[j][d] += localSumCoords[j][d];
                 }
@@ -92,6 +112,7 @@ void updateCentroids(std::vector<Point>& data, std::vector<Centroid>& centroids,
     // Finalmente, dejamos el mismo bloque que calcula los nuevos centroides
     for (int j = 0; j < k; j++) {
         if (count[j] > 0) {
+            #pragma omp simd
             for (int d = 0; d < dimensions; d++) {
                 centroids[j].coords[d] = sumCoords[j][d] / count[j];
             }
