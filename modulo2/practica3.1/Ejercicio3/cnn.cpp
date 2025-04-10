@@ -6,7 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
-
+#include <omp.h>
 /* For timming */
 #include <sys/time.h>  // gettimeofday
 #include <unistd.h>    // for usleep (demo delay)
@@ -56,7 +56,7 @@ float* load_weights(const string& filename, int* size) {
 }
 
 void conv2d(float* input, float* output, float* kernel, int height, int width, float bias) {
-
+    #pragma omp target teams distribute parallel for collapse(2)
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             float sum = 0.0f;
@@ -79,6 +79,7 @@ void conv2d(float* input, float* output, float* kernel, int height, int width, f
 // Max Pooling 2x2 with stride=2
 void maxpool2d(float* input, float* output, int height, int width) {
 
+    #pragma omp target teams distribute parallel for collapse(2)
     for (int i = 0; i < height/2; ++i) {
         for (int j = 0; j < width/2; ++j) {
             float max_val = -3.4e38;
@@ -100,7 +101,8 @@ void maxpool2d(float* input, float* output, int height, int width) {
 
 // Fully connected layer
 void fully_connected(float* input, float* weights, float* biases, float* output, int fc_output_size, int fc_input_size) {
-
+//Mapear los datos una sola vez
+#pragma omp target teams distribute parallel for
     for (int i = 0; i < fc_output_size; i++) {
         float sum = 0.0f;
         for (int j = 0; j < fc_input_size; j++) {
@@ -223,9 +225,20 @@ int main() {
     float* pooled = new float[(width/2)*(height/2)];
     float* output = new float[size_fc1_biases];
 
+    
+
+
 
     // Get start time
     double t0 = get_ms();
+
+    // Para optimizar el uso de memoria podemos mapear la memoria de los datos de entrada y salida
+    // en la GPU una sola vez, y luego usarla en cada función.
+    // --- Transferencia inicial de datos al device (GPU) ---
+    #pragma omp target enter data map(alloc: conv_out[0:width*height], pooled[0:(width/2)*(height/2)], output[0:size_fc1_biases])
+    // Reservamos memoria
+    #pragma omp target enter data map(to: input[0:height*width], conv1_weights[0:9], fc1_weights[0:size_fc1_biases*fc_input_size], fc1_biases[0:size_fc1_biases])
+
 
     ///////////////////////////////////////////////////////////////////// 
     // Forward pass
@@ -234,6 +247,10 @@ int main() {
     maxpool2d(conv_out, pooled, height, width);
 
     fully_connected(pooled, fc1_weights, fc1_biases, output, size_fc1_biases, fc_input_size);
+
+    // Para traer los datos de la GPU al host, usamos el pragma target exit data
+    #pragma omp target exit data map(from: output[0:size_fc1_biases])
+  
 
     // Get end time
     double t1 = get_ms();
