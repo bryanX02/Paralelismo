@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import socket
 import pandas as pd
 import io # Para manejar el string del CSV directamente

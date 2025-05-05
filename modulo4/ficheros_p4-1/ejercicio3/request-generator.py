@@ -1,14 +1,25 @@
-#!/usr/bin/env python3
 import sys
 import socket
 import threading
 import random
 import time
 
+# ----- RESULTADOS OBTENIDO EN LOCAL -----
+'''
+Se realizaron las pruebas con distintas temrinales y los parametros: python3 request-generator.py localhost:10000 20 10 10
+
+Servidor Multithreading (Parte B):
+Tasa de peticiones: 933.26 peticiones/segundo
+
+Servidor Multiprocessing (Parte C):
+Tasa de peticiones: 942.39 peticiones/segundo
+
+Comparando las tasas de peticiones, la implementación utilizando multiprocessing (Parte C) ha logrado un rendimiento ligeramente superior (942.39 vs 933.26 peticiones/segundo) en esta ejecución específica con los parámetros de carga utilizados.
+'''
+
 # Lista de ciudades válidas y meses válidos
 CITIES = ['Madrid', 'Rome', 'Berlin', 'Paris']
 MONTHS = list(range(1, 13))
-
 
 # Variables compartidas (añadir lo necesario)
 finished = False
@@ -64,13 +75,9 @@ def client_thread(host, port, delay_ms):
 
                 time.sleep(delay_sec)
 
-            except socket.error as e:
-                print(f"Hilo {thread_id}: Error de socket durante comunicación: {e}")
             except Exception as e:
                 print(f"Hilo {thread_id}: Error inesperado durante comunicación: {e}")
 
-    except socket.error as e:
-        print(f"Hilo {thread_id}: Error de socket al conectar: {e}")
     except Exception as e:
         print(f"Hilo {thread_id}: Error inesperado: {e}")
     finally:
@@ -90,7 +97,7 @@ def main():
         print("Ejemplo: python3 request-generator.py localhost:10000 20 10 100")
         sys.exit(1) 
     
-    # Parsear argumentos
+    # Parseamos los argumentos
 
     try:
         host_port_str = sys.argv[1]
@@ -155,7 +162,7 @@ def main():
     if duration > 0:
         rate = request_count / duration
     else:
-        rate = 0 # O manejar como indefinido si T fue 0
+        rate = 0 
 
     # Imprimimos resultados
     print("\n--- Resultados ---")

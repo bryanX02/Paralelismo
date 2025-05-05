@@ -11,19 +11,14 @@ VALID_CITIES = ['Madrid', 'Paris', 'Berlin', 'Rome']
 BUFFER_SIZE = 1024
 # --- Fin Configuración ---
 
+
 def load_data(filename):
-    """Carga los datos desde el fichero CSV y los prepara."""
+    """"""
     try:
         df = pd.read_csv(filename)
-        df['date'] = pd.to_datetime(df['date'])
+        df['datetime'] = pd.to_datetime(df['datetime'])
         print(f"Datos cargados y preparados desde {filename}")
         return df
-    except FileNotFoundError:
-        print(f"Error: El fichero {filename} no se encontró.")
-        exit(1)
-    except KeyError as e:
-        print(f"Error: Falta la columna requerida '{e}' en {filename}.")
-        exit(1)
     except Exception as e:
         print(f"Error inesperado al cargar los datos: {e}")
         exit(1)
@@ -54,7 +49,7 @@ def process_request(request_str, df):
     except ValueError:
         return f"Error: Mes inválido '{month_str}'. Debe ser un número."
 
-    filtered_df = df[(df['name'] == city) & (df['date'].dt.month == month)]
+    filtered_df = df[(df['name'] == city) & (df['datetime'].dt.month == month)]
 
     if filtered_df.empty:
         return f"Error: No hay datos para {city} en el mes {month}."
